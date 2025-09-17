@@ -50,13 +50,25 @@ source install/setup.bash
 ## Quick Start
 
 1. **Build the package**: `colcon build --packages-select quest3_webxr_ros2`
-2. **Start the server**: `ros2 launch quest3_webxr_ros2 quest3_webxr.launch.py`
-3. **Open Quest 3 browser**: Navigate to `https://YOUR_IP:8443/quest3_webxr.html`
-4. **Enter VR**: Click "Enter VR" and start controlling!
+2. **Generate SSL certificates**: `./generate_ssl_cert.sh`
+3. **Start the server**: `ros2 launch quest3_webxr_ros2 quest3_webxr.launch.py`
+4. **Open Quest 3 browser**: Navigate to `https://YOUR_IP:8443/quest3_webxr.html`
+5. **Enter VR**: Click "Enter VR" and start controlling!
 
 ## Usage
 
-### 1. Start the WebXR Server
+### 1. Generate SSL Certificates
+
+First, generate SSL certificates for secure WebXR communication:
+
+```bash
+# Generate self-signed certificates for development
+./generate_ssl_cert.sh
+```
+
+**Note**: For production use, replace with proper certificates from a Certificate Authority.
+
+### 2. Start the WebXR Server
 
 ```bash
 # Using launch file (recommended)
@@ -66,14 +78,14 @@ ros2 launch quest3_webxr_ros2 quest3_webxr.launch.py
 ros2 run quest3_webxr_ros2 quest3_webxr_server
 ```
 
-### 2. Access the WebXR App
+### 3. Access the WebXR App
 
 1. Open a WebXR-compatible browser on your Quest 3
 2. Navigate to: `https://YOUR_IP_ADDRESS:8443/quest3_webxr.html`
 3. Accept the SSL certificate (self-signed)
 4. Click "Enter VR" to start the WebXR session
 
-### 3. Monitor ROS2 Data
+### 4. Monitor ROS2 Data
 
 ```bash
 # View published topics
@@ -191,9 +203,12 @@ Edit the `buttonMapping` object in `quest3_webxr.js` to customize button assignm
 
 ## Security Notes
 
-- The package uses self-signed SSL certificates for development
-- For production use, replace with proper certificates
-- Ensure your network is secure when using WSS connections
+- **SSL Certificates**: The package uses self-signed SSL certificates for development
+  - Generate certificates per device using `./generate_ssl_cert.sh`
+  - For production use, replace with proper certificates from a Certificate Authority
+  - Never commit certificates to version control
+- **Network Security**: Ensure your network is secure when using WSS connections
+- **Development vs Production**: Self-signed certificates are fine for development but not for production
 
 ## License
 

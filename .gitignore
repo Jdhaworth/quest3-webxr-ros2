@@ -43,3 +43,8 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# SSL Certificates (should be generated per device)
+webxr_app/cert.pem
+webxr_app/key.pem
+*.pem
