@@ -7,11 +7,9 @@ This package provides seamless integration between Oculus Quest 3 VR headsets an
 - **WebXR Integration**: Native Quest 3 support with WebXR API
 - **TF2 Publishing**: Headset and controller poses published as TF transforms
 - **ROS2 Topics**: Transform and button data available as standard ROS2 topics
-- **Secure Communication**: HTTPS and WSS support for secure connections
 - **Real-time Data**: Low-latency controller and headset tracking
-- **Quest 3 Optimized**: Specifically designed for Oculus Quest 3 capabilities
+- **Quest 3**: Specifically designed for Oculus Quest 3 capabilities
 - **Button & Thumbstick Support**: Full controller input including all buttons and thumbstick axes
-- **High Performance**: Optimized for smooth VR tracking without performance degradation
 
 ## Published Topics
 
@@ -34,8 +32,8 @@ This package provides seamless integration between Oculus Quest 3 VR headsets an
 
 ### Prerequisites
 
-- ROS2 (tested with Humble and Iron)
-- Python 3.8+
+- ROS2 (tested with Humble)
+- Python 3.10+
 - Oculus Quest 3 with WebXR support
 - WebXR-compatible browser (Chrome, Edge, or Firefox Reality)
 
@@ -50,11 +48,11 @@ source install/setup.bash
 ## Quick Start
 
 1. **Build the package**: `colcon build --packages-select quest3_webxr_ros2`
-2. **Start the server**: `ros2 launch quest3_webxr_ros2 quest3_webxr.launch.py`
-3. **Open Quest 3 browser**: Navigate to `https://YOUR_IP:8443/quest3_webxr.html`
-4. **Enter VR**: Click "Enter VR" and start controlling!
-
-**Note**: The package includes development SSL certificates. For production, generate new certificates using `./generate_ssl_cert.sh`.
+2. **Generate certificates**: `./generate_ssl_cert.sh`
+3. **Start the server**: `ros2 launch quest3_webxr_ros2 quest3_webxr.launch.py`
+5. **Ensure your Quest 3 is in developer mode** [Meta Developers Device Setup](https://developers.meta.com/horizon/documentation/native/android/mobile-device-setup/)
+7. **Open Quest 3 browser**: Navigate to `https://YOUR_IP:8443/quest3_webxr.html`
+8. **Enter VR**: Click "Enter VR" and start controlling!
 
 ## Usage
 
@@ -121,22 +119,6 @@ ros2 run tf2_tools view_frames
 - `axes[0]` - Thumbstick X axis (-1.0 to 1.0)
 - `axes[1]` - Thumbstick Y axis (-1.0 to 1.0)
 
-## Coordinate Frames
-
-### World Frame
-- Origin: Quest 3's local-floor reference space
-- X: Right
-- Y: Up
-- Z: Forward (towards user)
-
-### Headset Frame
-- Position: Absolute position in world frame
-- Orientation: Absolute orientation in world frame
-
-### Controller Frames
-- Position: Relative to headset position
-- Orientation: Absolute orientation in world frame
-
 ## Configuration
 
 ### Launch Parameters
@@ -183,38 +165,6 @@ ros2 launch quest3_webxr_ros2 quest3_webxr.launch.py \
 - Check that the WebXR session is active
 - Verify controllers are being tracked
 - Monitor the server logs for errors
-
-## Development
-
-### Adding New Features
-
-1. Modify `quest3_webxr_ros2/webxr_server.py` for ROS2 backend changes
-2. Update `webxr_app/quest3_webxr.js` for frontend changes
-3. Rebuild the package: `colcon build --packages-select quest3_webxr_ros2`
-
-### Custom Button Mapping
-
-Edit the `buttonMapping` object in `quest3_webxr.js` to customize button assignments.
-
-### Adding New Topics
-
-1. Add publisher in `setup_ros2_publishers()` method
-2. Add publishing logic in the appropriate data processing method
-3. Update this README with the new topic information
-
-## Security Notes
-
-- **SSL Certificates**: The package includes development SSL certificates
-  - Certificates are included for immediate use but are ignored by git
-  - Generate new certificates per device using `./generate_ssl_cert.sh` for production
-  - For production use, replace with proper certificates from a Certificate Authority
-  - Never commit certificates to version control (they're in .gitignore)
-- **Network Security**: Ensure your network is secure when using WSS connections
-- **Development vs Production**: Self-signed certificates are fine for development but not for production
-
-## License
-
-MIT License - see package.xml for details.
 
 ## Contributing
 
