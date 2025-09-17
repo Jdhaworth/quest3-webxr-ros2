@@ -50,19 +50,20 @@ source install/setup.bash
 ## Quick Start
 
 1. **Build the package**: `colcon build --packages-select quest3_webxr_ros2`
-2. **Generate SSL certificates**: `./generate_ssl_cert.sh`
-3. **Start the server**: `ros2 launch quest3_webxr_ros2 quest3_webxr.launch.py`
-4. **Open Quest 3 browser**: Navigate to `https://YOUR_IP:8443/quest3_webxr.html`
-5. **Enter VR**: Click "Enter VR" and start controlling!
+2. **Start the server**: `ros2 launch quest3_webxr_ros2 quest3_webxr.launch.py`
+3. **Open Quest 3 browser**: Navigate to `https://YOUR_IP:8443/quest3_webxr.html`
+4. **Enter VR**: Click "Enter VR" and start controlling!
+
+**Note**: The package includes development SSL certificates. For production, generate new certificates using `./generate_ssl_cert.sh`.
 
 ## Usage
 
-### 1. Generate SSL Certificates
+### 1. SSL Certificates
 
-First, generate SSL certificates for secure WebXR communication:
+The package includes development SSL certificates that are ready to use. For production or if you need to regenerate certificates:
 
 ```bash
-# Generate self-signed certificates for development
+# Generate new self-signed certificates for development
 ./generate_ssl_cert.sh
 ```
 
@@ -203,10 +204,11 @@ Edit the `buttonMapping` object in `quest3_webxr.js` to customize button assignm
 
 ## Security Notes
 
-- **SSL Certificates**: The package uses self-signed SSL certificates for development
-  - Generate certificates per device using `./generate_ssl_cert.sh`
+- **SSL Certificates**: The package includes development SSL certificates
+  - Certificates are included for immediate use but are ignored by git
+  - Generate new certificates per device using `./generate_ssl_cert.sh` for production
   - For production use, replace with proper certificates from a Certificate Authority
-  - Never commit certificates to version control
+  - Never commit certificates to version control (they're in .gitignore)
 - **Network Security**: Ensure your network is secure when using WSS connections
 - **Development vs Production**: Self-signed certificates are fine for development but not for production
 
